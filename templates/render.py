@@ -593,6 +593,41 @@ def put_icon(c, name, x, y, p, color=V2, glow_c=None):
     return im.width * p, im.height * p
 
 
+
+# ---------------------------------------------------------------- site art
+ART = ["cow", "bucket", "plane", "team", "ill_handshake", "ill_layers", "ill_calendar", "ill_brain", "ill_flow",
+       "ill_sliders", "ill_people", "ill_battery"]
+
+
+def art_img(name):
+    if name not in ART:
+        raise Fail(f"Нет иллюстрации «{name}». Доступны: {', '.join(ART)}")
+    return Image.open(os.path.join(ROOT, "assets", "img", name + ".png")).convert("RGBA")
+
+
+def put_art(c, name, x, y, w=None, h=None, anchor="lt", shade=True):
+    im = art_img(name)
+    if w and not h:
+        h = im.height * w / im.width
+    elif h and not w:
+        w = im.width * h / im.height
+    im = im.resize((px(w), px(h)), Image.LANCZOS)
+    if anchor[0] == "r":
+        x -= w
+    elif anchor[0] == "m":
+        x -= w / 2
+    if anchor[1] == "b":
+        y -= h
+    elif anchor[1] == "m":
+        y -= h / 2
+    if shade:
+        sh = Image.new("RGBA", (px(w * 0.8), px(h * 0.08)), (0, 0, 0, 0))
+        ImageDraw.Draw(sh).ellipse([0, 0, sh.width - 1, sh.height - 1], fill=(40, 20, 90, 50))
+        sh = sh.filter(ImageFilter.GaussianBlur(px(12)))
+        c.paste(sh, px(x + w * 0.1), px(y + h * 0.94))
+    c.paste(im, px(x), px(y))
+    return w, h
+
 # ---------------------------------------------------------------- helpers
 def acc(cfg, default="violet"):
     return ACCENTS.get(cfg.get("accent", default), ACCENTS[default])
@@ -762,7 +797,10 @@ def L_marquee(c, cfg):
     y = draw_rich(c, lines, f, s, M + 40, top + 40 + 30 + 34, INK, V1, "marker", lh=1.12, deco=LILAC)
     if sub_l:
         para(c, sub, sf, 27, M + 40, y + 24, MUTED, inner, lh=1.4)
-    put_icon(c, cfg.get("icon", "star"), W - M - 40 - 80, top - 50, 4, color=YELLOW)
+    if cfg.get("art"):
+        put_art(c, cfg["art"], W - M - 20, top + 30, h=200, anchor="rb", shade=False)
+    else:
+        put_icon(c, cfg.get("icon", "star"), W - M - 40 - 80, top - 50, 4, color=YELLOW)
     band(c, 1262, 1350, WHITE, V1, words, star=V2)
 
 
@@ -947,7 +985,10 @@ def L_quote(c, cfg):
         para(c, cfg["role"], font("sans", 22, 500), 22, M, y + 44, MUTED, W - 2 * M - 220, max_lines=2)
     if y > 1100:
         raise Fail("Цитата слишком длинная")
-    put_icon(c, cfg.get("icon", "chat"), W - M - 160, 1010, 8, color=acc(cfg))
+    if cfg.get("art"):
+        put_art(c, cfg["art"], W - M, 1190, h=230, anchor="rb")
+    else:
+        put_icon(c, cfg.get("icon", "chat"), W - M - 160, 1010, 8, color=acc(cfg))
     source(c, cfg.get("source"))
     band(c, 1262, 1350, (V1, V2), WHITE, ribbon(cfg, ["МНЕНИЕ", "ЭКСПЕРТ", "ЦИТАТА"]))
 
@@ -1135,7 +1176,10 @@ def L_news(c, cfg):
         f = font("serif", f.size / S - 10, 900)
     c.text(M - 14, 470, wm, f, (232, 224, 252), anchor="ls")
     header(c, cfg, label_style={"bg": NAVY, "fg": WHITE, "dot": (255, 92, 92)})
-    put_icon(c, cfg.get("icon", "megaphone"), W - M - 176, 150, 9, color=a)
+    if cfg.get("art"):
+        put_art(c, cfg["art"], W - M, 400, h=250, anchor="rb")
+    else:
+        put_icon(c, cfg.get("icon", "megaphone"), W - M - 176, 150, 9, color=a)
     s, f2, lines = fit(c, cfg["title"], "serif", 800, W - 2 * M, 330, 78, lh=1.1)
     y = draw_rich(c, lines, f2, s, M, 540, INK, V1, "marker", lh=1.1, deco=LILAC)
     if cfg.get("subtitle"):
@@ -1160,9 +1204,82 @@ def L_news(c, cfg):
     footer_site(c, 1290, INK, line=(222, 226, 236), left=cfg.get("footer", "01 / НОВОСТЬ"))
 
 
+def L_hero(c, cfg):
+    """как первый экран сайта: заголовок + большая иллюстрация (cow / bucket / plane)"""
+    c.im = Image.new("RGBA", c.im.size, (246, 249, 254, 255))
+    c.refresh()
+    glow(c, 860, 900, 640, LILAC, 0.55)
+    glow(c, 120, 260, 520, (200, 236, 250), 0.45)
+    header(c, cfg)
+    art = cfg.get("art", "cow")
+    s, f, lines = fit(c, cfg["title"], "serif", 800, W - 2 * M, 300, 82, lh=1.1)
+    y = 170
+    if cfg.get("kicker"):
+        kicker(c, M, y, cfg["kicker"], V1)
+        y += 46
+    y = draw_rich(c, lines, f, s, M, y, INK, V1, "color", lh=1.1)
+    c.d.rounded_rectangle([px(M), px(y + 14), px(M + 90), px(y + 18)], radius=px(2), fill=LILAC)
+    if cfg.get("subtitle"):
+        y = para(c, cfg["subtitle"], font("sans", 28, 500), 28, M, y + 40, MUTED, W - 2 * M - 40, lh=1.4, max_lines=3)
+    top = y + 30
+    area_h = 1180 - top
+    if area_h < 360:
+        raise Fail("Мало места для иллюстрации: сократи заголовок/подзаголовок")
+    im = art_img(art)
+    ratio = im.width / im.height
+    aw = min(W - 2 * M + 80, area_h * ratio)
+    ah = aw / ratio
+    put_art(c, art, W / 2 + (60 if art == "cow" else 0), 1180, w=aw, anchor="mb")
+    # CTA pill like site button
+    cta = cfg.get("cta", "Подробнее - в описании")
+    cf = font("jost", 24, 700)
+    cw = c.tw(cta, cf) + 92
+    g = lin_grad(px(cw), px(64), V1, V2, 0)
+    mk = Image.new("L", g.size, 0)
+    ImageDraw.Draw(mk).rounded_rectangle([0, 0, g.width - 1, g.height - 1], radius=px(18), fill=255)
+    g.putalpha(mk)
+    shadow(c, [M, 1230, M + cw, 1294], r=18, color=V1, alpha=70, blur=14, dy=8)
+    c.paste(g, px(M), px(1230))
+    c.text(M + 28, 1262, cta, cf, WHITE, anchor="lm")
+    arrow_ne(c, M + cw - 34, 1262, 8, WHITE)
+    c.text(W - M, 1262, "dobroe.agency", font("sans", 20, 700), MUTED, anchor="rm", sp=0.5)
+
+
+def L_team(c, cfg):
+    """как баннер сайта: команда со спины + огромные фиолетовые слова"""
+    c.im = Image.new("RGBA", c.im.size, WHITE + (255,))
+    c.refresh()
+    glow(c, 980, 140, 520, LILAC, 0.45)
+    header(c, cfg)
+    y = 165
+    if cfg.get("kicker"):
+        kicker(c, M, y, cfg["kicker"], V1)
+        y += 46
+    s, f, lines = fit(c, cfg["title"], "serif", 800, W - 2 * M, 330, 80, lh=1.1)
+    y = draw_rich(c, lines, f, s, M, y, INK, V1, "underline", lh=1.1, deco=acc(cfg))
+    if cfg.get("subtitle"):
+        y = para(c, cfg["subtitle"], font("sans", 27, 500), 27, M, y + 26, MUTED, W - 2 * M - 40, lh=1.4, max_lines=3)
+    team = art_img("team")
+    tw_ = W + 60
+    th = team.height * tw_ / team.width
+    ty = H - th + 10
+    if ty < y + 150:
+        raise Fail("Мало места для фото команды: сократи текст")
+    put_art(c, "team", -30, ty, w=tw_, shade=False)
+    # giant words in front of the team - like the site banner
+    words = ribbon(cfg, ["Маркетинг.", "SEO.", "Реклама.", "Контент."])
+    bf = font("sans", 150, 800)
+    by = ty + th * 0.58
+    x = -60
+    i = 0
+    while x < W:
+        x += c.text(x, by, words[i % len(words)] + " ", bf, V2, anchor="lm")
+        i += 1
+
+
 LAYOUTS = {"stat": L_stat, "dark": L_dark, "marquee": L_marquee, "checklist": L_checklist, "myth": L_myth,
            "compare": L_compare, "quote": L_quote, "chat": L_chat, "pixel": L_pixel, "steps": L_steps,
-           "news": L_news}
+           "news": L_news, "hero": L_hero, "team": L_team}
 
 
 def check_dashes(cfg):
