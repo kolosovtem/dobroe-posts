@@ -30,7 +30,7 @@
 ```
 🌐 https://dobroe.agency/
 📞 +996 222 522 235
-💬 https://t.me/dobroeagency
+💬 https://t.me/Dobroe_agency
 📨 ceo@dobroe.agency
 ```
 
