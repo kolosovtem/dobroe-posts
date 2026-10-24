@@ -1277,9 +1277,66 @@ def L_team(c, cfg):
         i += 1
 
 
+def L_offer(c, cfg):
+    """последний слайд карусели / продающий пост: услуга агентства по теме + контакты"""
+    a = acc(cfg, "orange")
+    bg_grad(c, V1, V2, 40)
+    glow(c, 960, 220, 520, a, 0.35)
+    dots(c, mix(V1, WHITE, 0.25))
+    header(c, cfg, dark=True, label_style={"bg": WHITE, "fg": V1})
+    y = 170
+    kicker(c, M, y, cfg.get("kicker", "ЧЕМ ПОМОЖЕМ"), WHITE)
+    y += 46
+    s, f, lines = fit(c, cfg["title"], "serif", 800, W - 2 * M, 300, 78, lh=1.1)
+    y = draw_rich(c, lines, f, s, M, y, WHITE, WHITE, "marker", lh=1.1, deco=a)
+    items = cfg.get("items", [])[:4]
+    top = y + 34
+    contacts = [("phone", "+996 222 522 235"), ("chat", "t.me/Dobroe_agency"), ("cursor", "dobroe.agency")]
+    ctop = 1300 - 70 - len(contacts) * 62
+    tf = font("sans", 27, 700)
+    hh = 0
+    rows = []
+    if items:
+        rows = [plain_wrap(c, it, tf, W - 2 * M - 140) for it in items]
+        if any(len(r) > 2 for r in rows):
+            raise Fail("Пункт оффера длинный: максимум 2 строки")
+        hh = sum(30 + len(r) * 27 * 1.3 for r in rows) + 40
+        if top + hh > ctop - 40:
+            raise Fail("Оффер не влезает: сократи заголовок или пункты")
+    free = ctop - 40 - (top + hh)
+    art = cfg.get("art")
+    if art and free < 200:
+        raise Fail("Мало места для иллюстрации в offer: сократи текст или убери art")
+    if not art:
+        top += free * 0.3
+    if items:
+        card(c, [M, top, W - M, top + hh], r=32)
+        yy = top + 34
+        for r in rows:
+            put_icon(c, "check", M + 34, yy + 2, 2, color=a if a != ACCENTS["violet"] else GREEN)
+            for k, l in enumerate(r):
+                c.text(M + 96, yy + k * 27 * 1.3, l, tf, INK)
+            yy += 30 + len(r) * 27 * 1.3
+    if art:
+        ah = min(free - 30, 420)
+        y0 = top + hh + 20
+        im = art_img(art)
+        aw = min(W - 2 * M, (ah) * im.width / im.height)
+        ah = aw * im.height / im.width
+        put_art(c, art, W - M - aw / 2 + (0 if aw > 500 else -20), y0 + (free - 10 - ah) / 2, w=aw, anchor="mt")
+    if cfg.get("cta"):
+        cf = font("jost", 26, 700)
+        c.text(M, ctop - 6, cfg["cta"], cf, WHITE, anchor="ls")
+    cf = font("sans", 30, 800)
+    for i, (ic, t) in enumerate(contacts):
+        cy = ctop + 14 + i * 62
+        put_icon(c, ic, M, cy, 2, color=WHITE)
+        c.text(M + 60, cy + 20, t, cf, WHITE, anchor="lm")
+
+
 LAYOUTS = {"stat": L_stat, "dark": L_dark, "marquee": L_marquee, "checklist": L_checklist, "myth": L_myth,
            "compare": L_compare, "quote": L_quote, "chat": L_chat, "pixel": L_pixel, "steps": L_steps,
-           "news": L_news, "hero": L_hero, "team": L_team}
+           "news": L_news, "hero": L_hero, "team": L_team, "offer": L_offer}
 
 
 def check_dashes(cfg):
