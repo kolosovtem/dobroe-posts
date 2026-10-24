@@ -1,0 +1,28 @@
+<b>Реклама в Instagram, Google и 2ГИС, а откуда пришли заявки - никто не знает. Это решают UTM-метки.</b>
+
+Метки дописывают к рекламной ссылке, и Google Analytics показывает, какой канал и какое объявление привели клиента.
+
+<b>Обязательные по <a href="https://support.google.com/analytics/answer/10917952">справке Google</a>:</b>
+1. utm_source - откуда: instagram, google, 2gis.
+2. utm_medium - тип: cpc, social, email.
+3. utm_campaign - кампания: kofe_oktyabr.
+Плюс utm_content, чтобы различать креативы.
+
+<b>Где ломается:</b>
+- Google и google для GA4 - разные источники. Только строчные.
+- insta, ig и instagram вперемешку.
+- Нет общей таблицы меток.
+- Без меток в отчёте (not set).
+
+Перешлите тому, кто запускает у вас рекламу.
+
+Настраиваем аналитику и разметку UTM, показываем, какой канал приносит заявки. Напишите в Telegram - разберём вашу ситуацию.
+
+А вы знаете, какая реклама даёт больше заявок?
+
+#аналитика #UTMметки #маркетингбишкек #бизнесбишкек
+
+🌐 <a href="https://dobroe.agency/">dobroe.agency</a>
+📞 +996 222 522 235
+💬 <a href="https://t.me/Dobroe_agency">@Dobroe_agency</a>
+📨 ceo@dobroe.agency

@@ -1,0 +1,18 @@
+{
+ "slides": [
+  {"layout": "marquee", "label": "ЛИСТАЙТЕ ->", "kicker": "АНАЛИТИКА · UTM", "icon": "search", "accent": "mint",
+   "title": "Реклама везде, а откуда заявки - [[не знаете]]",
+   "subtitle": "UTM-метки в ссылках покажут это в Google Analytics. Как их ставить - на следующих слайдах.",
+   "ribbon": ["UTM", "GA4", "ЗАЯВКИ", "АНАЛИТИКА"]},
+  {"layout": "steps", "label": "UTM", "kicker": "3 ОБЯЗАТЕЛЬНЫЕ + 1", "accent": "mint",
+   "title": "Что дописать к [[ссылке]]",
+   "items": [["utm_source", "Откуда: instagram, google, 2gis"], ["utm_medium", "Тип: cpc, social, email"], ["utm_campaign", "Кампания: kofe_oktyabr"], ["utm_content", "Какой креатив: video1, banner2"]]},
+  {"layout": "checklist", "label": "ПРАВИЛА", "kicker": "ЧТОБЫ ОТЧЁТ НЕ ВРАЛ", "save": "Сохраните, чтобы не потерять",
+   "title": "5 правил [[чистых]] меток",
+   "items": ["Только строчные: Google и google - разные источники", "Одно название на площадку, без insta и ig вперемешку", "Вместо пробелов - подчёркивание", "Общая таблица меток для всей команды", "Без меток в отчёте будет (not set)"]},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "orange", "art": "ill_sliders",
+   "title": "Покажем, какая реклама приносит [[заявки]]",
+   "items": ["Проверим Google Analytics и цели", "Разметим рекламу UTM-метками", "Соберём отчёт по каналам"],
+   "cta": "Напишите нам:"}
+ ]
+}
