@@ -8,6 +8,7 @@
   - последний - "offer": услуга агентства по теме + контакты
 Результат:
   Instagram: post-1.jpg ... post-N.jpg (+ post.jpg = обложка), сверху индикатор листания.
+  Facebook:  fb.jpg - адаптированная обложка без номера (коннектор публикует одно фото), текст поста сам пересказывает пользу.
   Telegram:  tg-1.jpg ... tg-N.jpg - без индикатора листания и без призывов «листайте»,
              «на следующих слайдах», «сохраните»; вместо них номер карточки «1 / N».
              Правки на слайд: поле "tg" в слайде (перекрывает любые поля только для Telegram).
@@ -100,9 +101,12 @@ def main(cfg_path, out_dir):
         tg = tg_slide(s, i, n, cfg)
         out_tg = os.path.join(out_dir, f"tg-{i + 1}.jpg")
         R.render(tg, out_tg)
+        if i == 0:
+            # обложка для Facebook: та же адаптированная обложка, но без номера карточки
+            R.render(tg, os.path.join(out_dir, "fb.jpg"))
         card_no(out_tg, i, n, tg.get("layout") in dark)
     shutil.copyfile(os.path.join(out_dir, "post-1.jpg"), os.path.join(out_dir, "post.jpg"))
-    print("carousel", n, "slides ->", out_dir, "(Instagram: post-*.jpg, Telegram: tg-*.jpg)")
+    print("carousel", n, "slides ->", out_dir, "(Instagram: post-*.jpg, Telegram: tg-*.jpg, Facebook: fb.jpg)")
 
 
 if __name__ == "__main__":
