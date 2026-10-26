@@ -1334,9 +1334,199 @@ def L_offer(c, cfg):
         c.text(M + 60, cy + 20, t, cf, WHITE, anchor="lm")
 
 
+# ================================================================ bold posters (мало текста, крупная картинка)
+THEMES = {
+    # bg1, bg2, ink, hot, sub, dark-logo
+    "violet": ((94, 22, 234), (138, 72, 255), WHITE, (255, 214, 10), (226, 214, 255), True),
+    "orange": ((255, 138, 20), (255, 176, 59), (24, 10, 60), WHITE, (70, 30, 10), False),
+    "lemon": ((255, 222, 40), (255, 236, 120), INK, (94, 22, 234), (80, 70, 20), False),
+    "mint": ((12, 170, 120), (52, 211, 153), WHITE, (24, 10, 60), (220, 255, 240), True),
+    "sky": ((24, 144, 226), (80, 190, 250), WHITE, (255, 214, 10), (225, 242, 255), True),
+    "pink": ((236, 72, 153), (255, 128, 190), WHITE, (24, 10, 60), (255, 225, 240), True),
+    "cream": ((255, 244, 226), (255, 236, 205), INK, (247, 120, 20), (110, 90, 70), False),
+    "night": ((11, 18, 32), (40, 20, 90), WHITE, (247, 147, 30), (172, 180, 208), True),
+    "white": ((255, 255, 255), (243, 238, 253), INK, (94, 22, 234), MUTED, False),
+}
+
+
+def theme(cfg, default="violet"):
+    t = cfg.get("theme", default)
+    if t not in THEMES:
+        raise Fail(f"Неизвестная тема «{t}». Доступны: {', '.join(THEMES)}")
+    return THEMES[t]
+
+
+def poster_bg(c, th, r):
+    bg_grad(c, th[0], th[1], r.choice([20, 60, 120, 160]))
+
+
+def blob(c, cx, cy, rad, color, alpha):
+    L = c.layer()
+    ImageDraw.Draw(L).ellipse([px(cx - rad), px(cy - rad), px(cx + rad), px(cy + rad)], fill=tuple(color) + (alpha,))
+    c.over(L)
+
+
+def ring(c, cx, cy, rad, color, w=3, alpha=255):
+    L = c.layer()
+    ImageDraw.Draw(L).ellipse([px(cx - rad), px(cy - rad), px(cx + rad), px(cy + rad)],
+                              outline=tuple(color) + (alpha,), width=px(w))
+    c.over(L)
+
+
+def poster_head(c, cfg, th):
+    logo(c, dark=th[5])
+    lab = cfg.get("label")
+    if lab:
+        pill(c, W - M, 66, lab, th[2], outline=th[2], right=True)
+
+
+def poster_foot(c, cfg, th):
+    tag = cfg.get("tag")
+    if tag:
+        pill(c, M, 1236, tag, th[0] if th[2] == WHITE else WHITE, bg=th[2], size=20, h=54, w8=800)
+    c.text(W - M, 1263, "dobroe.agency", font("sans", 22, 800), th[2], anchor="rm", sp=0.5)
+
+
+def visual(c, cfg, th, cx, cy, box):
+    """крупная картинка: пиксельная иконка (резкая при любом размере) или иллюстрация сайта"""
+    art = cfg.get("art")
+    if art:
+        im = art_img(art)
+        k = min(box / max(im.width, im.height), 2.3 if art.startswith("ill_") else 9)
+        put_art(c, art, cx, cy + im.height * k / 2, w=im.width * k, anchor="mb")
+        return
+    ic = cfg.get("icon", "star")
+    base = icon(ic, th[3])
+    p = max(4, int(box / max(base.width, base.height)))
+    w, h = base.width * p, base.height * p
+    put_icon(c, ic, cx - w / 2, cy - h / 2, p, color=th[3] if th[3] not in (WHITE,) else WHITE)
+
+
+def L_poster(c, cfg):
+    """афиша: 3-7 слов огромным шрифтом + крупная картинка. Текст сверху или снизу (flip)"""
+    th = theme(cfg)
+    r = rnd(cfg)
+    poster_bg(c, th, r)
+    flip = cfg.get("flip", False)
+    vcx, vcy = (W * r.choice([0.5, 0.62, 0.38]), 860) if not flip else (W * 0.5, 430)
+    blob(c, vcx, vcy, r.choice([300, 340, 380]), mix(th[0], WHITE, 0.25), 120)
+    ring(c, vcx + r.choice([-60, 60]), vcy - 20, 430, th[2], 2, 60)
+    poster_head(c, cfg, th)
+    s, f, lines = fit(c, cfg["title"], "jost", 800, W - 2 * M, 420, 150, smin=70, lh=1.0, max_lines=4)
+    th_h = len(lines) * s * 1.0
+    sub = cfg.get("subtitle")
+    sf = font("sans", 30, 700)
+    if not flip:
+        y = draw_rich(c, lines, f, s, M, 170, th[2], th[3], "color", lh=1.0)
+        if sub:
+            y = para(c, sub, sf, 30, M, y + 22, th[4], W - 2 * M, max_lines=2)
+        top = y + 30
+        visual(c, cfg, th, vcx, (top + 1200) / 2, min(560, 1200 - top - 20))
+    else:
+        visual(c, cfg, th, vcx, 430, 460)
+        sub_h = (len(plain_wrap(c, sub, sf, W - 2 * M)) * 30 * 1.35 + 22) if sub else 0
+        y = draw_rich(c, lines, f, s, M, 1200 - th_h - sub_h, th[2], th[3], "color", lh=1.0)
+        if sub:
+            para(c, sub, sf, 30, M, y + 22, th[4], W - 2 * M, max_lines=2)
+    poster_foot(c, cfg, th)
+
+
+def L_bignum(c, cfg):
+    """одно огромное число + одна фраза"""
+    th = theme(cfg, "lemon")
+    r = rnd(cfg)
+    poster_bg(c, th, r)
+    blob(c, W - 140, 300, 300, mix(th[0], WHITE, 0.3), 110)
+    for k in range(3):
+        ring(c, 150, 1150, 140 + k * 70, th[2], 2, 50)
+    poster_head(c, cfg, th)
+    num = cfg["number"]
+    size = 520
+    f = font("jost", size, 900)
+    while c.tw(num, f) > W - 2 * M and size > 120:
+        size -= 10
+        f = font("jost", size, 900)
+    c.text(M - size * 0.04, 170 + size * 0.86, num, f, th[3], anchor="ls")
+    y = 170 + size * 0.98
+    s, f2, lines = fit(c, cfg["title"], "jost", 700, W - 2 * M, 1190 - y - 40, 74, smin=40, lh=1.08, max_lines=4)
+    yb = draw_rich(c, lines, f2, s, M, y + 30, th[2], th[3], "color", lh=1.08)
+    if cfg.get("icon"):
+        room = 1200 - yb - 40
+        p = int(min(room, 340) / 20)
+        if p >= 6:
+            put_icon(c, cfg["icon"], W - M - 20 * p, 1200 - 20 * p, p, color=th[2])
+    source(c, cfg.get("source"), y=1190, color=th[4])
+    poster_foot(c, cfg, th)
+
+
+def L_vs(c, cfg):
+    """две половины: плохо / хорошо, по 1-4 слова"""
+    tb = THEMES[cfg.get("theme_bad", "night")]
+    tg = THEMES[cfg.get("theme", "lemon")]
+    mid = 640
+    g = lin_grad(px(W), px(mid), tb[0], tb[1], 30)
+    c.paste(g, 0, 0)
+    g2 = lin_grad(px(W), px(H - mid), tg[0], tg[1], 30)
+    c.paste(g2, 0, px(mid))
+    poster_head(c, cfg, tb)
+    if cfg.get("kicker"):
+        kicker(c, M, 170, cfg["kicker"], tb[4])
+    # плохо
+    s, f, lines = fit(c, cfg["bad"], "jost", 800, W - 2 * M - 220, 330, 130, smin=60, lh=1.0, max_lines=3)
+    y0 = mid - 70 - len(lines) * s
+    draw_rich(c, lines, f, s, M, y0, mix(tb[2], tb[0], 0.35), tb[3], "color", lh=1.0)
+    for i, l in enumerate(lines):
+        lw = line_w(c, l, f)
+        yy = y0 + i * s + s * 0.55
+        c.d.line([px(M - 10), px(yy), px(M + lw + 10), px(yy)], fill=RED, width=px(10))
+    put_icon(c, "cross", W - M - 20 * 9, mid - 70 - 20 * 9, 9, color=RED)
+    # хорошо
+    s2, f2, lines2 = fit(c, cfg["good"], "jost", 800, W - 2 * M - 220, 330, 130, smin=60, lh=1.0, max_lines=3)
+    draw_rich(c, lines2, f2, s2, M, mid + 80, tg[2], tg[3], "color", lh=1.0)
+    put_icon(c, "check", W - M - 20 * 9, mid + 80, 9, color=tg[3] if tg[3] != WHITE else GREEN)
+    if cfg.get("subtitle"):
+        para(c, cfg["subtitle"], font("sans", 28, 700), 28, M, mid + 110 + len(lines2) * s2, tg[4], W - 2 * M - 40,
+             max_lines=2)
+    poster_foot(c, cfg, tg)
+
+
+def L_stickers(c, cfg):
+    """короткий заголовок + 2-3 больших стикера (иконка и 1-3 слова)"""
+    th = theme(cfg, "cream")
+    r = rnd(cfg)
+    poster_bg(c, th, r)
+    poster_head(c, cfg, th)
+    s, f, lines = fit(c, cfg["title"], "jost", 800, W - 2 * M, 300, 110, smin=56, lh=1.0, max_lines=3)
+    y = draw_rich(c, lines, f, s, M, 170, th[2], th[3], "color", lh=1.0)
+    items = cfg["items"]
+    if not 2 <= len(items) <= 3:
+        raise Fail("stickers: 2-3 пункта")
+    cols = [(247, 147, 30), (94, 22, 234), (16, 185, 129), (236, 72, 153), (34, 166, 224)]
+    r.shuffle(cols)
+    top = y + 50
+    hh = (1200 - top - 20 * (len(items) - 1)) / len(items)
+    hh = min(hh, 290)
+    for i, it in enumerate(items):
+        y0 = top + i * (hh + 20)
+        col = cols[i]
+        ang = r.choice([-2.5, -1.5, 1.5, 2.5])
+        L = Image.new("RGBA", (px(W - 2 * M), px(hh)), (0, 0, 0, 0))
+        ImageDraw.Draw(L).rounded_rectangle([0, 0, L.width - 1, L.height - 1], radius=px(44), fill=tuple(col) + (255,))
+        L = L.rotate(ang, resample=Image.BICUBIC, expand=True)
+        c.paste(L, px(M) - (L.width - px(W - 2 * M)) // 2, px(y0) - (L.height - px(hh)) // 2)
+        p = int(min(hh - 60, 200) / 20)
+        put_icon(c, it.get("icon", "star"), M + 40, y0 + (hh - 20 * p) / 2, p, color=WHITE)
+        s3, f3, l3 = fit(c, it["text"], "jost", 800, W - 2 * M - 80 - 20 * p - 50, hh - 50, 64, smin=34, lh=1.02,
+                         max_lines=2)
+        draw_rich(c, l3, f3, s3, M + 40 + 20 * p + 40, y0 + (hh - len(l3) * s3 * 1.02) / 2, WHITE, (255, 236, 120),
+                  "color", lh=1.02)
+    poster_foot(c, cfg, th)
+
+
 LAYOUTS = {"stat": L_stat, "dark": L_dark, "marquee": L_marquee, "checklist": L_checklist, "myth": L_myth,
            "compare": L_compare, "quote": L_quote, "chat": L_chat, "pixel": L_pixel, "steps": L_steps,
-           "news": L_news, "hero": L_hero, "team": L_team, "offer": L_offer}
+           "news": L_news, "hero": L_hero, "team": L_team, "offer": L_offer,
+           "poster": L_poster, "bignum": L_bignum, "vs": L_vs, "stickers": L_stickers}
 
 
 def check_dashes(cfg):
@@ -1345,8 +1535,31 @@ def check_dashes(cfg):
         raise Fail("В конфиге есть длинное тире «—»/«–» - замени на дефис «-»")
 
 
+TEXT_SKIP = {"layout", "accent", "icon", "art", "ribbon", "source", "theme", "theme_bad", "tg", "label", "watermark",
+             "footer", "flip", "save_tg", "tag", "cta"}
+MAX_WORDS = 26
+
+
+def count_words(v):
+    if isinstance(v, str):
+        return len(re.findall(r"[A-Za-zА-Яа-яЁё][\wА-Яа-яЁё-]*", v.replace("[[", "").replace("]]", "")))
+    if isinstance(v, list):
+        return sum(count_words(x) for x in v)
+    if isinstance(v, dict):
+        return sum(count_words(x) for k, x in v.items() if k not in TEXT_SKIP)
+    return 0
+
+
+def check_words(cfg):
+    n = sum(count_words(v) for k, v in cfg.items() if k not in TEXT_SKIP)
+    if n > MAX_WORDS:
+        raise Fail(f"На картинке {n} слов, максимум {MAX_WORDS}. Картинка - это крючок, а не статья: "
+                   f"оставь заголовок и 2-3 коротких пункта, остальное - в описание.")
+
+
 def render(cfg, out):
     check_dashes(cfg)
+    check_words(cfg)
     lay = cfg.get("layout", "stat")
     if lay not in LAYOUTS:
         raise Fail(f"Неизвестный layout «{lay}». Доступны: {', '.join(LAYOUTS)}")

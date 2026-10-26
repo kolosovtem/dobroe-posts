@@ -6,6 +6,17 @@
 
 Иконки: star check cross chart search chat phone target bolt eye coin clock mail play megaphone trophy cursor heart arrow bag bulb
 
+**Главные макеты - яркие афиши** (минимум 2 поста из 3). Поле `theme`: violet orange lemon mint sky pink cream night white - цвет фона, меняй каждый пост. Поле `tag` - плашка рубрики внизу. На картинке максимум 26 слов.
+
+| Макет | Для чего | Обязательные поля | Доп. поля |
+|---|---|---|---|
+| `poster` | совет, мысль, провокация - 3-7 слов огромным шрифтом + большая картинка | title, icon **или** art | theme, subtitle (до 8 слов), flip (текст снизу), tag, label |
+| `bignum` | одна сильная цифра из источника | number («7 дней», «46%»), title (до 10 слов) | theme, icon (крупно внизу), source, tag |
+| `vs` | миф/правда, плохо/хорошо, было/стало | bad (1-4 слова, зачёркнуто), good (1-4 слова) | theme (низ), theme_bad (верх, по умолч. night), kicker, subtitle, tag |
+| `stickers` | 2-3 коротких совета стикерами | title, items [{icon, text (1-3 слова)}] | theme, tag |
+
+Старые макеты (не чаще 1 поста из 3, тоже до 26 слов):
+
 | Макет | Для чего | Обязательные поля | Доп. поля |
 |---|---|---|---|
 | `stat` | исследование с сильной цифрой | big, title, rows **или** stats | chip, card_title, subtitle, unit |
@@ -23,7 +34,7 @@
 | `team` | посты про агентство, подход, команду, ценности | title | kicker, subtitle, ribbon (слова с точкой: "SEO.") |
 | `offer` | последний слайд карусели: услуга агентства по теме + контакты | title | kicker, items (до 4 пунктов, что сделаем), cta ("Напишите нам:"), art (маленькая иллюстрация), accent |
 
-Карусель: `python3 -I templates/carousel.py carousel.json <папка>`, конфиг `{"slides": [...]}` из 3-6 слайдов, последний - `offer`. Пример - `templates/examples/carousel.json`.
+Карусель: `python3 -I templates/carousel.py carousel.json <папка>`, конфиг `{"slides": [...]}` из 3-4 слайдов, обложка - афиша, последний - `offer`. Пример - `templates/examples/carousel.json`.
 
 ## Иллюстрации агентства (`art`)
 Файлы в `assets/img/`. Это фирменные картинки с сайта dobroe.agency - использовать можно и нужно, но не чаще одного раза на 6 постов каждую.
