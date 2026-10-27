@@ -1523,10 +1523,107 @@ def L_stickers(c, cfg):
     poster_foot(c, cfg, th)
 
 
+
+# ================================================================ реальные фото (assets/photos, лицензия Pexels)
+PHOTO_DIR = os.path.join(ROOT, "assets", "photos")
+
+
+def photo_img(name, w, h, focus=0.35):
+    path = os.path.join(PHOTO_DIR, name + ".jpg")
+    if not os.path.exists(path):
+        have = sorted(f[:-4] for f in os.listdir(PHOTO_DIR) if f.endswith(".jpg"))
+        raise Fail(f"Нет фото «{name}». Доступны: {', '.join(have)}")
+    im = Image.open(path).convert("RGB")
+    k = max(w / im.width, h / im.height)
+    im = im.resize((int(im.width * k + 1), int(im.height * k + 1)), Image.LANCZOS)
+    x0 = (im.width - w) // 2
+    y0 = int((im.height - h) * min(max(focus, 0), 1))
+    return im.crop((x0, y0, x0 + w, y0 + h))
+
+
+def duotone(im, dark, light, contrast=1.3):
+    g = np.asarray(im.convert("L"), np.float32) / 255.0
+    g = np.clip((g - 0.5) * contrast + 0.5, 0, 1)[..., None]
+    arr = np.array(dark, np.float32) * (1 - g) + np.array(light, np.float32) * g
+    return Image.fromarray(arr.clip(0, 255).astype(np.uint8))
+
+
+def fade(c, y0, y1, color, a0=0, a1=235):
+    """вертикальный градиент цвета поверх фото (для читаемости текста)"""
+    h = px(y1 - y0)
+    t = np.linspace(0, 1, h, dtype=np.float32)[:, None]
+    al = (a0 + (a1 - a0) * t ** 1.4).clip(0, 255).astype(np.uint8)
+    A = Image.fromarray(np.repeat(al, px(W), axis=1), "L")
+    L = Image.new("RGBA", (px(W), h), tuple(color) + (0,))
+    L.putalpha(A)
+    c.paste(L, 0, px(y0))
+
+
+PHOTO_TONES = {
+    # тон: (тёмный, светлый) для дуотона; None = естественные цвета
+    "violet": ((34, 6, 100), (206, 186, 255)),
+    "night": ((10, 14, 30), (190, 176, 255)),
+    "orange": ((70, 20, 60), (255, 190, 110)),
+    "mint": ((6, 60, 60), (170, 255, 220)),
+    "natural": None,
+}
+
+
+def L_photo(c, cfg):
+    """живое фото на весь кадр + крупный заголовок 3-7 слов. tone: violet | night | orange | mint | natural"""
+    tone = cfg.get("tone", "violet")
+    if tone not in PHOTO_TONES:
+        raise Fail(f"tone: {', '.join(PHOTO_TONES)}")
+    im = photo_img(cfg["photo"], px(W), px(H), cfg.get("focus", 0.35))
+    if PHOTO_TONES[tone]:
+        im = duotone(im, *PHOTO_TONES[tone])
+    c.im = im.convert("RGBA")
+    c.refresh()
+    top = cfg.get("text_top", False)
+    shade = (30, 6, 90) if tone in ("violet", "natural") else PHOTO_TONES[tone][0]
+    if top:
+        g = np.linspace(225, 0, px(760), dtype=np.float32)[:, None].astype(np.uint8)
+        A = Image.fromarray(np.repeat(g, px(W), axis=1), "L")
+        T = Image.new("RGBA", (px(W), px(760)), tuple(shade) + (0,))
+        T.putalpha(A)
+        c.paste(T, 0, 0)
+    else:
+        fade(c, 560, H, shade, 0, 238)
+        fade(c, 0, 220, shade, 120, 0)
+    logo(c, dark=True)
+    if cfg.get("label"):
+        pill(c, W - M, 66, cfg["label"], WHITE, outline=WHITE, right=True)
+    hot = (255, 214, 10)
+    s, f, lines = fit(c, cfg["title"], "jost", 800, W - 2 * M, 400, 122, smin=60, lh=1.0, max_lines=4)
+    sub = cfg.get("subtitle")
+    sf = font("sans", 30, 700)
+    sub_h = (len(plain_wrap(c, sub, sf, W - 2 * M)) * 30 * 1.35 + 20) if sub else 0
+    if top:
+        y = draw_rich(c, lines, f, s, M, 170, WHITE, hot, "color", lh=1.0)
+        if sub:
+            para(c, sub, sf, 30, M, y + 20, (236, 230, 255), W - 2 * M, max_lines=2)
+    else:
+        y0 = 1200 - len(lines) * s - sub_h
+        if cfg.get("chip"):
+            pill(c, M, y0 - 74, cfg["chip"], INK, bg=hot, size=20, h=50, w8=800)
+        y = draw_rich(c, lines, f, s, M, y0, WHITE, hot, "color", lh=1.0)
+        if sub:
+            para(c, sub, sf, 30, M, y + 20, (236, 230, 255), W - 2 * M, max_lines=2)
+    if cfg.get("icon"):
+        p = 6
+        bx, by = W - M - 150, 170 if not top else 1040
+        blob(c, bx + 75, by + 75, 78, hot, 255)
+        put_icon(c, cfg["icon"], bx + 75 - 10 * p, by + 75 - 10 * p, p, color=INK)
+    tag = cfg.get("tag")
+    if tag:
+        pill(c, M, 1236, tag, INK, bg=WHITE, size=20, h=54, w8=800)
+    c.text(W - M, 1263, "dobroe.agency", font("sans", 22, 800), WHITE, anchor="rm", sp=0.5)
+
+
 LAYOUTS = {"stat": L_stat, "dark": L_dark, "marquee": L_marquee, "checklist": L_checklist, "myth": L_myth,
            "compare": L_compare, "quote": L_quote, "chat": L_chat, "pixel": L_pixel, "steps": L_steps,
            "news": L_news, "hero": L_hero, "team": L_team, "offer": L_offer,
-           "poster": L_poster, "bignum": L_bignum, "vs": L_vs, "stickers": L_stickers}
+           "poster": L_poster, "bignum": L_bignum, "vs": L_vs, "stickers": L_stickers, "photo": L_photo}
 
 
 def check_dashes(cfg):
@@ -1535,7 +1632,7 @@ def check_dashes(cfg):
         raise Fail("В конфиге есть длинное тире «—»/«–» - замени на дефис «-»")
 
 
-TEXT_SKIP = {"layout", "accent", "icon", "art", "ribbon", "source", "theme", "theme_bad", "tg", "label", "watermark",
+TEXT_SKIP = {"layout", "photo", "tone", "focus", "text_top", "accent", "icon", "art", "ribbon", "source", "theme", "theme_bad", "tg", "label", "watermark",
              "footer", "flip", "save_tg", "tag", "cta"}
 MAX_WORDS = 26
 

@@ -10,6 +10,7 @@
 
 | Макет | Для чего | Обязательные поля | Доп. поля |
 |---|---|---|---|
+| `photo` | ГЛАВНЫЙ: живое фото из assets/photos (см. PHOTOS.md) + заголовок 3-7 слов | photo, title | tone (violet night orange mint natural), focus (0-1), text_top, chip, subtitle, icon, tag, label |
 | `poster` | совет, мысль, провокация - 3-7 слов огромным шрифтом + большая картинка | title, icon **или** art | theme, subtitle (до 8 слов), flip (текст снизу), tag, label |
 | `bignum` | одна сильная цифра из источника | number («7 дней», «46%»), title (до 10 слов) | theme, icon (крупно внизу), source, tag |
 | `vs` | миф/правда, плохо/хорошо, было/стало | bad (1-4 слова, зачёркнуто), good (1-4 слова) | theme (низ), theme_bad (верх, по умолч. night), kicker, subtitle, tag |
