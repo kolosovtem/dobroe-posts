@@ -1,0 +1,16 @@
+{
+ "tg_label": "SEO",
+ "slides": [
+  {"layout": "poster", "theme": "lemon", "label": "ЛИСТАЙТЕ ->", "art": "cow", "tag": "SEO",
+   "title": "Вашего сайта [[нет в Google]]?", "subtitle": "Проверьте за одну минуту"},
+  {"layout": "stickers", "theme": "mint", "label": "ПРОВЕРКА", "title": "Наберите в [[Google]]",
+   "items": [{"icon": "search", "text": "site:ваш-сайт.kg"}, {"icon": "check", "text": "Есть страницы - ок"}, {"icon": "cross", "text": "Пусто - проблема"}],
+   "tag": "SEO"},
+  {"layout": "vs", "theme": "orange", "kicker": "ЕСЛИ ПУСТО", "bad": "Ждать месяцами", "good": "Искать [[причину]]",
+   "subtitle": "Search Console покажет, видит ли Google страницу", "tag": "SEO"},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "orange", "art": "ill_layers",
+   "title": "Выведем сайт [[в Google]] и Яндекс",
+   "items": ["Аудит индексации", "Техническая настройка", "SEO-продвижение"],
+   "cta": "Напишите нам:"}
+ ]
+}

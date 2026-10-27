@@ -1,0 +1,19 @@
+<b>Сайт есть, а клиенты из Google не приходят?</b> Возможно, Google его просто не видит.
+
+<b>Проверка за минуту:</b>
+- наберите в Google site:ваш-сайт.kg (свой адрес);
+- есть страницы - сайт в индексе;
+- пусто - ждать бесполезно, ищите причину. Видит ли Google страницу, покажет Search Console.
+
+Так советует сам Google в <a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide">руководстве по SEO</a>.
+
+Проверим индексацию и выведем сайт в Google и Яндекс - напишите нам в Telegram.
+
+Сколько страниц показал ваш сайт? Перешлите тому, у кого есть сайт.
+
+#seo #продвижениесайта #маркетингбишкек
+
+🌐 <a href="https://dobroe.agency/">dobroe.agency</a>
+📞 +996 222 522 235
+💬 <a href="https://t.me/Dobroe_agency">@Dobroe_agency</a>
+📨 ceo@dobroe.agency
