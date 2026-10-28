@@ -1,0 +1,16 @@
+{
+ "tg_label": "РЫНОК КР · ЦИФРЫ",
+ "slides": [
+  {"layout": "photo", "photo": "hands_phone_overhead", "tone": "orange", "label": "ЛИСТАЙТЕ ->", "chip": "КЫРГЫЗСТАН",
+   "title": "8 млн абонентов [[интернета]] в КР", "subtitle": "А ваш бизнес найдут онлайн?", "tag": "РЫНОК КР"},
+  {"layout": "bignum", "theme": "night", "number": "+9%", "title": "абонентов интернета в КР [[за полгода]]",
+   "icon": "chart", "source": "Служба связи КР, II кв. 2026", "tag": "ЦИФРЫ"},
+  {"layout": "stickers", "theme": "sky", "label": "ПРОВЕРКА", "title": "Где вас должны [[найти]]",
+   "items": [{"icon": "search", "text": "Google"}, {"icon": "eye", "text": "2ГИС и Карты"}, {"icon": "phone", "text": "Сайт с телефона"}],
+   "tag": "РЫНОК КР"},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "orange", "art": "ill_handshake",
+   "title": "Сделаем так, чтобы вас [[нашли]]",
+   "items": ["Аудит сайта и соцсетей", "Карточки в 2ГИС и Google", "SEO и реклама"],
+   "cta": "Напишите нам:"}
+ ]
+}
