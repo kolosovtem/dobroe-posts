@@ -1,0 +1,14 @@
+{
+ "tg_label": "TELEGRAM · ЗАЯВКИ",
+ "slides": [
+  {"layout": "poster", "theme": "pink", "label": "ЛИСТАЙТЕ ->", "icon": "clock", "tag": "TELEGRAM-БОТ",
+   "title": "Заявка в [[23:00]]. Кто ответит?", "subtitle": "Бот примет её, пока вы спите"},
+  {"layout": "stickers", "theme": "cream", "label": "TELEGRAM-БОТ", "title": "Что делает бот [[заявок]]",
+   "items": [{"icon": "chat", "text": "Спросит задачу"}, {"icon": "phone", "text": "Возьмёт телефон"}, {"icon": "mail", "text": "Передаст менеджеру"}],
+   "tag": "АВТОМАТИЗАЦИЯ"},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "violet", "art": "ill_flow",
+   "title": "Сделаем [[Telegram-бота]] для заявок",
+   "items": ["Вопросы под ваш бизнес", "Заявки в чат команды", "Работает круглосуточно"],
+   "cta": "Напишите нам:"}
+ ]
+}
