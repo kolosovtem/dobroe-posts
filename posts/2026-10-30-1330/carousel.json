@@ -1,0 +1,52 @@
+{
+ "tg_label": "РАЗБОР МИФА · SMM",
+ "slides": [
+  {
+   "layout": "photo",
+   "photo": "woman_exhausted",
+   "tone": "orange",
+   "label": "ЛИСТАЙТЕ ->",
+   "chip": "РАЗБОР МИФА",
+   "title": "Соцсети «между делом» [[не продают]]",
+   "subtitle": "Миф: пост, когда есть время",
+   "tag": "SMM",
+   "text_top": true,
+   "focus": 0.75
+  },
+  {
+   "layout": "stickers",
+   "theme": "lemon",
+   "label": "SMM",
+   "title": "Что нужно соцсетям, чтобы [[продавать]]",
+   "items": [
+    {
+     "icon": "bulb",
+     "text": "План на месяц"
+    },
+    {
+     "icon": "chat",
+     "text": "Быстрые ответы"
+    },
+    {
+     "icon": "chart",
+     "text": "Учёт заявок"
+    }
+   ],
+   "tag": "РАЗБОР МИФА"
+  },
+  {
+   "layout": "offer",
+   "label": "АГЕНТСТВО",
+   "kicker": "ЧЕМ ПОМОЖЕМ",
+   "accent": "mint",
+   "art": "ill_calendar",
+   "title": "Возьмём [[соцсети]] на себя",
+   "items": [
+    "Контент-план и тексты",
+    "Дизайн и Reels",
+    "Ответы на комментарии"
+   ],
+   "cta": "Напишите нам:"
+  }
+ ]
+}
