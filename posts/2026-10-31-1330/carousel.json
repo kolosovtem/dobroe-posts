@@ -1,0 +1,17 @@
+{
+ "tg_label": "SEO И САЙТЫ",
+ "slides": [
+  {"layout": "vs", "theme": "pink", "theme_bad": "night", "label": "ЛИСТАЙТЕ ->",
+   "kicker": "ЗАГОЛОВОК САЙТА В GOOGLE",
+   "bad": "«Главная»", "good": "Ремонт обуви [[в Бишкеке]]",
+   "subtitle": "Так клиент видит вас в поиске", "tag": "SEO"},
+  {"layout": "stickers", "theme": "cream", "label": "SEO",
+   "title": "Что писать в [[заголовке]] страницы",
+   "items": [{"icon": "search", "text": "Услуга"}, {"icon": "arrow", "text": "Город или район"}, {"icon": "star", "text": "Название"}],
+   "tag": "SEO И САЙТЫ"},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "cyan", "art": "ill_layers",
+   "title": "Настроим [[SEO]] вашего сайта",
+   "items": ["Заголовки и описания страниц", "Проверка индексации", "Карточки в 2ГИС и Google Картах"],
+   "cta": "Напишите нам:"}
+ ]
+}
