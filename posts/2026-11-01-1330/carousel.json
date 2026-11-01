@@ -1,0 +1,14 @@
+{
+ "slides": [
+  {"layout": "photo", "photo": "frustrated_man", "tone": "mint", "label": "ЛИСТАЙТЕ ->", "chip": "РАЗБОР МИФА",
+   "title": "Сайт есть, а [[заявок]] нет", "icon": "cursor", "tag": "САЙТЫ"},
+  {"layout": "vs", "theme": "lemon", "theme_bad": "violet", "kicker": "МИФ И ПРАВДА",
+   "bad": "Сайт сам приведёт", "good": "Сайту нужен [[трафик]]", "tag": "РАЗБОР МИФА"},
+  {"layout": "stickers", "theme": "white", "label": "ОТКУДА КЛИЕНТЫ", "title": "Кто приведёт [[посетителей]]",
+   "items": [{"icon": "search", "text": "Поиск Google"}, {"icon": "star", "text": "2ГИС и Карты"}, {"icon": "megaphone", "text": "Реклама"}]},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "mint",
+   "title": "Приведём клиентов на [[ваш сайт]]",
+   "items": ["SEO в Google и Яндекс", "Карточки 2ГИС и Google Карт", "Реклама Google и Meta"],
+   "art": "ill_sliders", "cta": "Напишите нам:"}
+ ]
+}
