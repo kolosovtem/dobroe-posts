@@ -1,0 +1,12 @@
+{
+ "slides": [
+  {"layout": "poster", "theme": "orange", "label": "ЛИСТАЙТЕ ->", "icon": "heart", "tag": "ОТЗЫВЫ",
+   "title": "Довольные клиенты [[молчат]]", "subtitle": "Пока их не попросишь"},
+  {"layout": "stickers", "theme": "sky", "label": "ЧЕК-ЛИСТ", "title": "Как просить [[отзыв]]",
+   "items": [{"icon": "clock", "text": "Сразу после визита"}, {"icon": "mail", "text": "Ссылка в WhatsApp"}, {"icon": "check", "text": "QR у кассы"}]},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "orange",
+   "title": "Оформим карточки в [[2ГИС]] и Google Картах",
+   "items": ["Профиль и фото", "Ссылки для отзывов", "Ответы на отзывы"],
+   "art": "ill_handshake", "cta": "Напишите нам:"}
+ ]
+}
