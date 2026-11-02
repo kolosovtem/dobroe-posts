@@ -15,6 +15,7 @@
 | `bignum` | одна сильная цифра из источника | number («7 дней», «46%»), title (до 10 слов) | theme, icon (крупно внизу), source, tag |
 | `vs` | миф/правда, плохо/хорошо, было/стало | bad (1-4 слова, зачёркнуто), good (1-4 слова) | theme (низ), theme_bad (верх, по умолч. night), kicker, subtitle, tag |
 | `stickers` | 2-3 коротких совета стикерами | title, items [{icon, text (1-3 слова)}] | theme, tag |
+| `screen` | реалистичный экран + заголовок 3-7 слов (не чаще 1 поста из 4) | screen (serp ads insta site sheet maps notify), title | theme, subtitle, tag, label, ui (текст внутри экрана, до 30 слов - см. templates/screen.py и examples/screen_*.json) |
 
 Старые макеты (не чаще 1 поста из 3, тоже до 26 слов):
 

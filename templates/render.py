@@ -5,6 +5,7 @@
 
 Общие поля конфига:
   layout   - stat | dark | marquee | checklist | myth | compare | quote | chat | pixel | steps | news
+             | poster | bignum | vs | stickers | photo | hero | team | offer | screen (реалистичный экран, templates/screen.py)
   label    - текст метки справа сверху (напр. "РАЗБОР МИФА")
   title    - заголовок; [[слово]] = акцент; \\n = принудительный перенос
   accent   - доп. цвет: violet | orange | cyan | mint | pink
@@ -1655,6 +1656,10 @@ def check_words(cfg):
 
 
 def render(cfg, out):
+    if cfg.get("layout") == "screen":  # реалистичный экран - рисует templates/screen.py
+        sys.path.insert(0, HERE)
+        import screen
+        return screen.render(cfg, out)
     check_dashes(cfg)
     check_words(cfg)
     lay = cfg.get("layout", "stat")

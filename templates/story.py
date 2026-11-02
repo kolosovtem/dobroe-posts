@@ -7,6 +7,10 @@
   fact     - цифра: big, title, source, accent
   question - вопрос аудитории: title, cta ("Ответьте в директ")
   offer    - услуга агентства: kicker, title, items (до 4), cta
+  layout   - ЛЮБОЙ макет поста как история (яркие афиши, живые фото, реалистичные экраны):
+             {"type": "layout", "kind": "tip|fact|question|offer|promo", "post": {<конфиг как для render.py>}}
+             post рисуется 1080x1350 в безопасной зоне, сверху и снизу - размытое продолжение фона.
+             Призыв («ответьте в директ», «смотрите в профиле») пишем в subtitle/tag самого макета.
 Безопасные зоны: верхние ~250 px и нижние ~250 px перекрывает интерфейс Instagram - текста там нет.
 Примеры - templates/examples/story_*.json.
 """
@@ -172,7 +176,36 @@ def S_offer(c, cfg):
     site(c, (190, 180, 230))
 
 
-TYPES = {"promo": S_promo, "tip": S_tip, "fact": S_fact, "question": S_question, "offer": S_offer}
+def S_layout(c, cfg):
+    import subprocess
+    import tempfile
+    from PIL import ImageFilter, ImageEnhance
+    post = cfg.get("post")
+    if not isinstance(post, dict) or "layout" not in post:
+        raise R.Fail("Для type layout нужен post: {конфиг макета как для render.py}")
+    R.check_dashes(post)
+    d = tempfile.mkdtemp()
+    pj, pi = os.path.join(d, "p.json"), os.path.join(d, "p.jpg")
+    json.dump(post, open(pj, "w", encoding="utf-8"), ensure_ascii=False)
+    r = subprocess.run([sys.executable, "-I", os.path.join(os.path.dirname(os.path.abspath(__file__)), "render.py"), pj, pi],
+                       capture_output=True, text=True)
+    if r.returncode != 0 or not os.path.exists(pi):
+        raise R.Fail("Макет не отрисовался: " + (r.stderr.strip().splitlines() or ["?"])[-1])
+    im = Image.open(pi).convert("RGB")
+    y = (TOP + BOT) // 2 - im.height // 2
+    bg = Image.new("RGB", (W, H))
+    # верх и низ - растянутые края макета (без логотипа и подписи), чтобы фон продолжался
+    top_strip = im.crop((0, 0, W, 36)).resize((W, y + 40), Image.BICUBIC).filter(ImageFilter.GaussianBlur(18))
+    bot_h = H - (y + im.height)
+    bot_strip = im.crop((0, im.height - 36, W, im.height)).resize((W, bot_h + 40), Image.BICUBIC).filter(ImageFilter.GaussianBlur(18))
+    bg.paste(top_strip, (0, 0))
+    bg.paste(bot_strip, (0, H - bot_h - 40))
+    bg.paste(im, (0, y))
+    c.im = bg.convert("RGBA").resize((W * S, H * S), Image.LANCZOS)
+    c.refresh()
+
+
+TYPES = {"layout": S_layout, "promo": S_promo, "tip": S_tip, "fact": S_fact, "question": S_question, "offer": S_offer}
 
 
 def main(cfg_path, out):
