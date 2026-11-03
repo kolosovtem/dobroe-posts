@@ -1,0 +1,6 @@
+{
+  "telegram_chat": "",
+  "instagram_connector": "",
+  "instagram_username": "bishkekwelding",
+  "note": "Пустое поле = площадка ещё не подключена. telegram_chat - @username канала БСК (бот @Postdobro_bot должен быть админом). instagram_connector - id коннектора Instagram в AnythingMCP именно для @bishkekwelding."
+}
