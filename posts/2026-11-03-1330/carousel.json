@@ -1,0 +1,51 @@
+{
+ "slides": [
+  {
+   "layout": "photo",
+   "photo": "man_phone_laptop",
+   "tone": "mint",
+   "focus": 0.35,
+   "label": "ЛИСТАЙТЕ ->",
+   "chip": "GA4",
+   "title": "Заявки из WhatsApp [[не видно]] в отчётах?",
+   "subtitle": "Клик по кнопке не считается заявкой",
+   "icon": "eye",
+   "tag": "АНАЛИТИКА"
+  },
+  {
+   "layout": "stickers",
+   "theme": "pink",
+   "label": "GA4",
+   "title": "Как считать [[клики]] по кнопкам",
+   "items": [
+    {
+     "icon": "phone",
+     "text": "Событие на клик"
+    },
+    {
+     "icon": "trophy",
+     "text": "Ключевое событие"
+    },
+    {
+     "icon": "chart",
+     "text": "Каналы в отчёте"
+    }
+   ],
+   "tag": "АНАЛИТИКА"
+  },
+  {
+   "layout": "offer",
+   "label": "АГЕНТСТВО",
+   "kicker": "ЧЕМ ПОМОЖЕМ",
+   "accent": "cyan",
+   "art": "ill_brain",
+   "title": "Посчитаем [[заявки]] с сайта",
+   "items": [
+    "Клики WhatsApp и звонки",
+    "Ключевые события GA4",
+    "Заявки по каналам"
+   ],
+   "cta": "Напишите нам:"
+  }
+ ]
+}
