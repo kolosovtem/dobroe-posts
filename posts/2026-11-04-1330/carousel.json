@@ -1,0 +1,36 @@
+{
+ "slides": [
+  {
+   "layout": "vs",
+   "theme": "sky",
+   "label": "ЛИСТАЙТЕ ->",
+   "kicker": "ПИШУТ В 23:00",
+   "bad": "Тишина до утра",
+   "good": "[[Автоответ]] и каталог",
+   "subtitle": "3 настройки WhatsApp Business",
+   "tag": "ЧЕК-ЛИСТ"
+  },
+  {
+   "layout": "stickers",
+   "theme": "lemon",
+   "label": "WHATSAPP",
+   "title": "Что включить в [[WhatsApp Business]]",
+   "items": [
+    {"icon": "clock", "text": "Ответ вне часов"},
+    {"icon": "bolt", "text": "Быстрые ответы"},
+    {"icon": "bag", "text": "Каталог с ценами"}
+   ],
+   "tag": "ЧЕК-ЛИСТ"
+  },
+  {
+   "layout": "offer",
+   "label": "АГЕНТСТВО",
+   "kicker": "ЧЕМ ПОМОЖЕМ",
+   "accent": "pink",
+   "art": "ill_flow",
+   "title": "Настроим [[заявки]] из мессенджеров",
+   "items": ["Профиль и каталог", "Автоответы", "Бот для заявок"],
+   "cta": "Напишите нам:"
+  }
+ ]
+}
