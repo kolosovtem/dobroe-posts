@@ -1,0 +1,13 @@
+{
+ "slides": [
+  {"layout": "photo", "photo": "hand_phone", "tone": "night", "label": "ЛИСТАЙТЕ ->", "chip": "РАЗБОР МИФА",
+   "title": "Нажали «Продвигать» - [[заявок]] нет", "icon": "megaphone", "tag": "ТАРГЕТ"},
+  {"layout": "vs", "theme": "orange", "theme_bad": "night", "kicker": "МИФ И ПРАВДА",
+   "bad": "«Продвигать» = таргет", "good": "Таргет - это [[Ads Manager]]",
+   "subtitle": "Цель, аудитория, варианты объявлений", "tag": "РАЗБОР МИФА"},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "orange",
+   "title": "Настроим [[таргет]] в Ads Manager",
+   "items": ["Цель под заявки", "Аудитория рядом с вами", "Тест 2-3 объявлений"],
+   "art": "ill_people", "cta": "Напишите нам:"}
+ ]
+}
