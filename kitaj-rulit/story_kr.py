@@ -35,7 +35,8 @@ def wrap(d, text, font, maxw):
     raw, words, i = text.split(), [], 0
     while i < len(raw):
         w = raw[i]
-        while len(w.split("\u00a0")[-1]) <= 2 and i + 1 < len(raw):
+        while i + 1 < len(raw) and (len(w.split("\u00a0")[-1]) <= 2
+                                    or (w[-1].isdigit() and (raw[i + 1][0].isdigit() or len(raw[i + 1]) <= 5))):
             i += 1
             w = w + "\u00a0" + raw[i]
         words.append(w)
@@ -142,7 +143,7 @@ def render(e, out):
     # заголовок: подбираем кегль, чтобы влез в 3 строки
     for size in (66, 62, 58, 54, 50):
         tf = f("Bold", size)
-        tl = wrap(d, e["title"], tf, (760 if kind == "company" else W - 2 * M))
+        tl = wrap(d, e["title"], tf, (760 if kind == "company" and len(e["title"]) < 30 else W - 2 * M))
         if len(tl) <= 3:
             break
     lh = round(size * 1.22)
@@ -165,14 +166,17 @@ def render(e, out):
 
     if kind == "company":
         # кнопки «Сайт» и «Instagram», как в сторис 16:00
-        by = min(max(y + 90, 1150), 1210)
-        d.rounded_rectangle([60, by, 1020, by + 146], radius=24, outline=RED, width=3, fill=(18, 12, 14))
-        d.text((W / 2, by + 46), "Сайт", font=f("Regular", 27), fill=BODY, anchor="mm")
-        d.text((W / 2, by + 98), "kitaj-rulit.ru", font=f("Bold", 48), fill=WHITE, anchor="mm")
-        by += 164
-        d.rounded_rectangle([60, by, 1020, by + 146], radius=24, outline=(80, 72, 74), width=2, fill=(26, 24, 26))
-        d.text((W / 2, by + 46), "Instagram", font=f("Regular", 27), fill=BODY, anchor="mm")
-        d.text((W / 2, by + 98), "@kitaj_rulit", font=f("Bold", 48), fill=WHITE, anchor="mm")
+        by = max(y + 50, 1150)
+        bh, gap = (146, 18) if by + 310 <= 1530 else (118, 12)
+        by = min(by, 1530 - 2 * bh - gap)
+        d.rounded_rectangle([60, by, 1020, by + bh], radius=24, outline=RED, width=3, fill=(18, 12, 14))
+        d.text((W / 2, by + bh * 0.31), "Сайт", font=f("Regular", 27), fill=BODY, anchor="mm")
+        d.text((W / 2, by + bh * 0.67), "kitaj-rulit.ru", font=f("Bold", 48 if bh > 130 else 42), fill=WHITE, anchor="mm")
+        by += bh + gap
+        d.rounded_rectangle([60, by, 1020, by + bh], radius=24, outline=(80, 72, 74), width=2, fill=(26, 24, 26))
+        d.text((W / 2, by + bh * 0.31), "Instagram", font=f("Regular", 27), fill=BODY, anchor="mm")
+        d.text((W / 2, by + bh * 0.67), "@kitaj_rulit", font=f("Bold", 48 if bh > 130 else 42), fill=WHITE, anchor="mm")
+        e = dict(e, source="")
 
     # источник и фото — над красной плашкой
     notes = []
