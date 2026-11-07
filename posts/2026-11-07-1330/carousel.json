@@ -1,0 +1,13 @@
+{
+ "slides": [
+  {"layout": "photo", "photo": "woman_night", "tone": "night", "label": "ЛИСТАЙТЕ ->", "chip": "GOOGLE ADS",
+   "title": "Реклама крутится, а [[ответить]] некому", "icon": "clock", "tag": "РЕКЛАМА"},
+  {"layout": "stickers", "theme": "mint", "title": "Расписание показов [[за 3 шага]]",
+   "items": [{"icon": "phone", "text": "Часы ответа"}, {"icon": "chart", "text": "Отчёт по часам"}, {"icon": "coin", "text": "Бюджет на рабочее время"}],
+   "tag": "РЕКЛАМА"},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "mint",
+   "title": "Настроим [[Google Ads]] под ваш график",
+   "items": ["Расписание показов", "Звонки и заявки в отчёте", "Без показов в пустые часы"],
+   "art": "ill_sliders", "cta": "Напишите нам:"}
+ ]
+}
