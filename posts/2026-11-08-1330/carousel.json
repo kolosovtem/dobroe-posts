@@ -1,0 +1,13 @@
+{
+ "slides": [
+  {"layout": "poster", "theme": "lemon", "label": "ЛИСТАЙТЕ ->", "icon": "target", "tag": "INSTAGRAM",
+   "title": "Клиент смотрит [[первые 3]] поста",
+   "subtitle": "Закрепите там главное"},
+  {"layout": "stickers", "theme": "sky", "label": "ЗАКРЕП", "title": "Что [[закрепить]] наверху",
+   "items": [{"icon": "bag", "text": "Услуги и цены"}, {"icon": "star", "text": "Работы и отзывы"}, {"icon": "chat", "text": "Как записаться"}]},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "orange", "art": "ill_calendar",
+   "title": "Оформим профиль, который [[продаёт]]",
+   "items": ["Закрепы и Актуальное", "Тексты и дизайн", "Контент-план"],
+   "cta": "Напишите нам:"}
+ ]
+}
