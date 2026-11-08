@@ -1,0 +1,20 @@
+Сайт показывается в Google, а заявок с поиска нет? Часто по вам просто не кликают.
+
+Проверьте в Google Search Console отчёт «Эффективность»:
+- откройте вкладку «Запросы»;
+- найдите запросы с большим числом показов и низким CTR;
+- перепишите заголовок и описание страницы: услуга, город, цена «от», чем вы лучше.
+
+Настроим Search Console и разберём, по каким запросам вас уже ищут в Бишкеке. Напишите нам в Messenger или в Telegram.
+
+Search Console у вас подключена: да или нет?
+Поделитесь постом с тем, кто ведёт сайт.
+
+Источник: Google Search Central - https://developers.google.com/search/docs/monitor-debug/bubble-chart-analysis?hl=ru
+
+#seoбишкек #маркетингбишкек #бизнесбишкек
+
+🌐 https://dobroe.agency/
+📞 +996 222 522 235
+💬 https://t.me/Dobroe_agency
+📨 ceo@dobroe.agency
