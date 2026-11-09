@@ -1,0 +1,13 @@
+{
+ "slides": [
+  {"layout": "photo", "photo": "vendor_counter", "tone": "violet", "label": "ЛИСТАЙТЕ ->", "chip": "НОВОГОДНЯЯ АКЦИЯ",
+   "title": "Акция готова? [[Проверьте]] до рекламы", "icon": "coin", "tag": "ЧЕК-ЛИСТ"},
+  {"layout": "stickers", "theme": "pink", "title": "3 проверки [[перед стартом]]",
+   "items": [{"icon": "megaphone", "text": "Условия в одной фразе"}, {"icon": "phone", "text": "Менеджеры в курсе"}, {"icon": "arrow", "text": "Кнопка ведёт в чат"}],
+   "tag": "ЧЕК-ЛИСТ"},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "pink",
+   "title": "Запустим [[рекламу акции]] без потерь",
+   "items": ["Текст и креативы", "Таргет и Google Ads", "Заявки в одном чате"],
+   "art": "ill_handshake", "cta": "Напишите нам:"}
+ ]
+}
