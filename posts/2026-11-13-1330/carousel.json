@@ -1,0 +1,58 @@
+{
+ "slides": [
+  {
+   "layout": "photo",
+   "photo": "man_cap_phone",
+   "tone": "violet",
+   "label": "ЛИСТАЙТЕ ->",
+   "chip": "ДОСТУПЫ",
+   "title": "Подрядчик ушёл,\nа кабинет [[у него]]",
+   "subtitle": "Чьи ваши аккаунты на самом деле?",
+   "icon": "eye",
+   "tag": "ЧЕК-ЛИСТ"
+  },
+  {
+   "layout": "vs",
+   "theme": "sky",
+   "theme_bad": "night",
+   "kicker": "КТО ВЛАДЕЛЕЦ",
+   "bad": "Всё на подрядчике",
+   "good": "Всё [[на вас]]",
+   "tag": "ЧЕК-ЛИСТ"
+  },
+  {
+   "layout": "stickers",
+   "theme": "lemon",
+   "title": "Проверьте [[владельца]] здесь",
+   "items": [
+    {
+     "icon": "chart",
+     "text": "Рекламный кабинет"
+    },
+    {
+     "icon": "phone",
+     "text": "Instagram и Facebook"
+    },
+    {
+     "icon": "search",
+     "text": "Сайт и Google"
+    }
+   ],
+   "tag": "ЧЕК-ЛИСТ"
+  },
+  {
+   "layout": "offer",
+   "label": "АГЕНТСТВО",
+   "kicker": "ЧЕМ ПОМОЖЕМ",
+   "accent": "orange",
+   "title": "Наведём порядок\n[[в доступах]]",
+   "items": [
+    "Аудит рекламы и соцсетей",
+    "Проверка владельцев",
+    "Права для команды"
+   ],
+   "art": "ill_layers",
+   "cta": "Напишите нам:"
+  }
+ ]
+}
