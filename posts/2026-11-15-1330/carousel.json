@@ -1,0 +1,47 @@
+{
+ "slides": [
+  {
+   "layout": "poster",
+   "theme": "cream",
+   "label": "ЛИСТАЙТЕ ->",
+   "icon": "bag",
+   "tag": "SMM",
+   "title": "4 поста, которые [[продают]] в декабре"
+  },
+  {
+   "layout": "stickers",
+   "theme": "pink",
+   "label": "SMM",
+   "title": "Что выложить [[до праздника]]",
+   "items": [
+    {
+     "icon": "star",
+     "text": "Подарки по бюджету"
+    },
+    {
+     "icon": "heart",
+     "text": "Отзыв клиента"
+    },
+    {
+     "icon": "chat",
+     "text": "Как заказать"
+    }
+   ],
+   "tag": "SMM"
+  },
+  {
+   "layout": "offer",
+   "label": "АГЕНТСТВО",
+   "kicker": "ЧЕМ ПОМОЖЕМ",
+   "accent": "orange",
+   "title": "Соберём [[контент-план]] на декабрь",
+   "items": [
+    "Темы и тексты",
+    "Дизайн и Reels",
+    "Публикации по графику"
+   ],
+   "art": "ill_calendar",
+   "cta": "Напишите нам:"
+  }
+ ]
+}

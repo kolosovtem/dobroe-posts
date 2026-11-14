@@ -1,0 +1,49 @@
+{
+ "slides": [
+  {
+   "layout": "vs",
+   "theme": "orange",
+   "theme_bad": "night",
+   "label": "ЛИСТАЙТЕ ->",
+   "kicker": "РАЗБОР МИФА",
+   "bad": "Сайт не нужен",
+   "good": "Сайт [[и]] Instagram",
+   "tag": "РАЗБОР МИФА"
+  },
+  {
+   "layout": "stickers",
+   "theme": "lemon",
+   "label": "РАЗБОР МИФА",
+   "title": "Почему одного Instagram [[мало]]",
+   "items": [
+    {
+     "icon": "search",
+     "text": "Поиск Google"
+    },
+    {
+     "icon": "eye",
+     "text": "Риск блокировки"
+    },
+    {
+     "icon": "megaphone",
+     "text": "Реклама в Google"
+    }
+   ],
+   "tag": "РАЗБОР МИФА"
+  },
+  {
+   "layout": "offer",
+   "label": "АГЕНТСТВО",
+   "kicker": "ЧЕМ ПОМОЖЕМ",
+   "accent": "orange",
+   "title": "Выведем сайт [[в Google]]",
+   "items": [
+    "Аудит сайта",
+    "SEO в Google и Яндекс",
+    "Карточки в картах"
+   ],
+   "art": "ill_layers",
+   "cta": "Напишите нам:"
+  }
+ ]
+}

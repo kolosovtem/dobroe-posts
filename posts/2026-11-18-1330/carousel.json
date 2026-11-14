@@ -1,0 +1,49 @@
+{
+ "slides": [
+  {
+   "layout": "photo",
+   "photo": "store_counter",
+   "tone": "mint",
+   "label": "ЛИСТАЙТЕ ->",
+   "chip": "ЧЕК-ЛИСТ",
+   "title": "В декабре заявок [[больше]]. Готовы?",
+   "icon": "clock",
+   "tag": "ЧЕК-ЛИСТ"
+  },
+  {
+   "layout": "stickers",
+   "theme": "cream",
+   "label": "ЧЕК-ЛИСТ",
+   "title": "Проверьте [[до наплыва]]",
+   "items": [
+    {
+     "icon": "clock",
+     "text": "Ответ в выходные"
+    },
+    {
+     "icon": "chat",
+     "text": "Быстрые ответы"
+    },
+    {
+     "icon": "phone",
+     "text": "Номер для заявок"
+    }
+   ],
+   "tag": "ЧЕК-ЛИСТ"
+  },
+  {
+   "layout": "offer",
+   "label": "АГЕНТСТВО",
+   "kicker": "ЧЕМ ПОМОЖЕМ",
+   "accent": "orange",
+   "title": "Разгрузим [[менеджеров]] в декабре",
+   "items": [
+    "Telegram-бот для заявок",
+    "Быстрые ответы",
+    "Таблица заявок"
+   ],
+   "art": "ill_battery",
+   "cta": "Напишите нам:"
+  }
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "slides": [
+  {
+   "layout": "poster",
+   "theme": "lemon",
+   "label": "ЛИСТАЙТЕ ->",
+   "art": "cow",
+   "tag": "SMM",
+   "title": "Клиенты сами дадут [[темы]] сторис"
+  },
+  {
+   "layout": "stickers",
+   "theme": "pink",
+   "label": "SMM",
+   "title": "Сторис со стикером [[«Вопрос»]]",
+   "items": [
+    {
+     "icon": "chat",
+     "text": "Соберите вопросы"
+    },
+    {
+     "icon": "star",
+     "text": "Ответьте серией"
+    },
+    {
+     "icon": "arrow",
+     "text": "Как заказать"
+    }
+   ],
+   "tag": "SMM"
+  },
+  {
+   "layout": "offer",
+   "label": "АГЕНТСТВО",
+   "kicker": "ЧЕМ ПОМОЖЕМ",
+   "accent": "orange",
+   "title": "Ведём сторис и [[Reels]] за вас",
+   "items": [
+    "Контент-план",
+    "Тексты и дизайн",
+    "Ответы подписчикам"
+   ],
+   "art": "ill_people",
+   "cta": "Напишите нам:"
+  }
+ ]
+}
