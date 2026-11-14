@@ -1561,13 +1561,21 @@ def fade(c, y0, y1, color, a0=0, a1=235):
 
 
 PHOTO_TONES = {
-    # тон: (тёмный, светлый) для дуотона; None = естественные цвета
-    "violet": ((34, 6, 100), (206, 186, 255)),
-    "night": ((10, 14, 30), (190, 176, 255)),
-    "orange": ((70, 20, 60), (255, 190, 110)),
-    "mint": ((6, 60, 60), (170, 255, 220)),
-    "natural": None,
+    # тон = цвет подложки под текстом; само фото остаётся в естественных цветах (владелец 14.11: «фото живее», стиль сайта)
+    "violet": (40, 10, 120),
+    "night": (12, 12, 30),
+    "orange": (160, 55, 10),
+    "mint": (0, 74, 66),
+    "natural": (22, 20, 28),
 }
+
+
+def grade(im, sat=1.12, contrast=1.06, bright=1.02):
+    """лёгкая обработка: чуть сочнее и контрастнее, без перекраски"""
+    from PIL import ImageEnhance
+    im = ImageEnhance.Color(im).enhance(sat)
+    im = ImageEnhance.Contrast(im).enhance(contrast)
+    return ImageEnhance.Brightness(im).enhance(bright)
 
 
 def L_photo(c, cfg):
@@ -1576,21 +1584,40 @@ def L_photo(c, cfg):
     if tone not in PHOTO_TONES:
         raise Fail(f"tone: {', '.join(PHOTO_TONES)}")
     im = photo_img(cfg["photo"], px(W), px(H), cfg.get("focus", 0.35))
-    if PHOTO_TONES[tone]:
-        im = duotone(im, *PHOTO_TONES[tone])
+    im = grade(im)
     c.im = im.convert("RGBA")
     c.refresh()
     top = cfg.get("text_top", False)
-    shade = (30, 6, 90) if tone in ("violet", "natural") else PHOTO_TONES[tone][0]
+    shade = PHOTO_TONES[tone]
     if top:
-        g = np.linspace(225, 0, px(760), dtype=np.float32)[:, None].astype(np.uint8)
+        s0, f0, l0 = fit(c, cfg["title"], "jost", 800, W - 2 * M, 400, 122, smin=60, lh=1.0, max_lines=4)
+        sub0 = cfg.get("subtitle")
+        sh0 = (len(plain_wrap(c, sub0, font("sans", 30, 700), W - 2 * M)) * 30 * 1.35 + 20) if sub0 else 0
+        y_end = int(170 + len(l0) * s0 + sh0 + 40)
+        hh = y_end + 280
+        t = np.linspace(0, hh, px(hh), dtype=np.float32)
+        g = np.where(t < y_end, 225, 225 * (1 - (t - y_end) / 280) ** 1.4).clip(0, 255).astype(np.uint8)[:, None]
         A = Image.fromarray(np.repeat(g, px(W), axis=1), "L")
-        T = Image.new("RGBA", (px(W), px(760)), tuple(shade) + (0,))
+        T = Image.new("RGBA", (px(W), px(hh)), tuple(shade) + (0,))
         T.putalpha(A)
         c.paste(T, 0, 0)
+        fade(c, 1150, H, shade, 0, 200)
     else:
-        fade(c, 560, H, shade, 0, 238)
-        fade(c, 0, 220, shade, 120, 0)
+        # подложка начинается над заголовком и быстро густеет, чтобы белый текст читался на светлом фото
+        s0, f0, l0 = fit(c, cfg["title"], "jost", 800, W - 2 * M, 400, 122, smin=60, lh=1.0, max_lines=4)
+        sub0 = cfg.get("subtitle")
+        sh0 = (len(plain_wrap(c, sub0, font("sans", 30, 700), W - 2 * M)) * 30 * 1.35 + 20) if sub0 else 0
+        ty = 1200 - len(l0) * s0 - sh0 - (90 if cfg.get("chip") else 0)
+        y_start = max(380, int(ty - 300))
+        h = px(H - y_start)
+        t = np.linspace(0, 1, h, dtype=np.float32)[:, None]
+        k = min(1.0, 300 / (H - y_start))
+        al = np.where(t < k, 215 * (t / k) ** 1.2, 215 + 35 * (t - k) / max(1e-3, 1 - k)).clip(0, 250).astype(np.uint8)
+        A = Image.fromarray(np.repeat(al, px(W), axis=1), "L")
+        L = Image.new("RGBA", (px(W), h), tuple(shade) + (0,))
+        L.putalpha(A)
+        c.paste(L, 0, px(y_start))
+        fade(c, 0, 200, (12, 10, 24), 95, 0)
     logo(c, dark=True)
     if cfg.get("label"):
         pill(c, W - M, 66, cfg["label"], WHITE, outline=WHITE, right=True)
