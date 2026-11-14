@@ -1,0 +1,13 @@
+{
+ "slides": [
+  {"layout": "poster", "theme": "white", "flip": true, "label": "ЛИСТАЙТЕ ->", "icon": "target", "tag": "КАРТЫ",
+   "title": "Переехали, а карта ведёт [[на старый адрес]]",
+   "subtitle": "Клиент едет туда, где вас уже нет"},
+  {"layout": "stickers", "theme": "mint", "title": "Обновите адрес [[везде]]", "tag": "КАРТЫ",
+   "items": [{"icon": "cursor", "text": "Google и 2ГИС"}, {"icon": "heart", "text": "Сайт и Instagram"}, {"icon": "megaphone", "text": "Реклама"}]},
+  {"layout": "offer", "label": "АГЕНТСТВО", "kicker": "ЧЕМ ПОМОЖЕМ", "accent": "cyan",
+   "title": "Обновим адрес\n[[за вас]]",
+   "items": ["Google Карты и 2ГИС", "Адрес на сайте", "Проверка рекламы"],
+   "art": "ill_brain", "cta": "Напишите нам:"}
+ ]
+}
