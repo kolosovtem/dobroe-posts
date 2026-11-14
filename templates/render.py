@@ -1279,60 +1279,71 @@ def L_team(c, cfg):
 
 
 def L_offer(c, cfg):
-    """последний слайд карусели / продающий пост: услуга агентства по теме + контакты"""
-    a = acc(cfg, "orange")
-    bg_grad(c, V1, V2, 40)
-    glow(c, 960, 220, 520, a, 0.35)
-    dots(c, mix(V1, WHITE, 0.25))
-    header(c, cfg, dark=True, label_style={"bg": WHITE, "fg": V1})
+    """последний слайд карусели / продающий пост: услуга агентства по теме + контакты.
+    Стиль сайта dobroe.agency (владелец 14.11): светлый фон, тёмный заголовок с фиолетовым акцентом,
+    белая карточка с пунктами, фиолетовая плашка-кнопка с контактами."""
+    bg_grad(c, (244, 247, 253), (255, 255, 255), 160)
+    glow(c, 980, 160, 520, (190, 170, 255), 0.30)
+    glow(c, 80, 1250, 420, (200, 225, 255), 0.35)
+    header(c, cfg, dark=False)
     y = 170
-    kicker(c, M, y, cfg.get("kicker", "ЧЕМ ПОМОЖЕМ"), WHITE)
+    kicker(c, M, y, cfg.get("kicker", "ЧЕМ ПОМОЖЕМ"), V1)
     y += 46
-    s, f, lines = fit(c, cfg["title"], "serif", 800, W - 2 * M, 300, 78, lh=1.1)
-    y = draw_rich(c, lines, f, s, M, y, WHITE, WHITE, "marker", lh=1.1, deco=a)
+    s, f, lines = fit(c, cfg["title"], "serif", 800, W - 2 * M, 300, 80, lh=1.1)
+    y = draw_rich(c, lines, f, s, M, y, INK, V1, "color", lh=1.1)
+    g = lin_grad(px(150), px(4), V1, (220, 210, 255), 0)
+    c.paste(g.convert("RGBA"), px(M), px(y + 18))
     items = cfg.get("items", [])[:4]
-    top = y + 34
+    top = y + 58
     contacts = [("phone", "+996 222 522 235"), ("chat", "t.me/Dobroe_agency"), ("cursor", "dobroe.agency")]
-    ctop = 1300 - 70 - len(contacts) * 62
-    tf = font("sans", 27, 700)
+    ctop = 1300 - 96 - len(contacts) * 62
+    ptop = ctop - 70
+    limit = ptop - 34
+    tf = font("sans", 28, 700)
     hh = 0
     rows = []
     if items:
         rows = [plain_wrap(c, it, tf, W - 2 * M - 140) for it in items]
         if any(len(r) > 2 for r in rows):
             raise Fail("Пункт оффера длинный: максимум 2 строки")
-        hh = sum(30 + len(r) * 27 * 1.3 for r in rows) + 40
-        if top + hh > ctop - 40:
+        hh = sum(34 + len(r) * 28 * 1.3 for r in rows) + 44
+        if top + hh > limit:
             raise Fail("Оффер не влезает: сократи заголовок или пункты")
-    free = ctop - 40 - (top + hh)
+    free = limit - (top + hh)
     art = cfg.get("art")
-    if art and free < 200:
+    if art and free < 170:
         raise Fail("Мало места для иллюстрации в offer: сократи текст или убери art")
     if not art:
         top += free * 0.3
     if items:
         card(c, [M, top, W - M, top + hh], r=32)
-        yy = top + 34
+        yy = top + 38
         for r in rows:
-            put_icon(c, "check", M + 34, yy + 2, 2, color=a if a != ACCENTS["violet"] else GREEN)
+            blob(c, M + 52, yy + 17, 22, (238, 232, 255), 255)
+            put_icon(c, "check", M + 36, yy + 1, 2, color=V1)
             for k, l in enumerate(r):
-                c.text(M + 96, yy + k * 27 * 1.3, l, tf, INK)
-            yy += 30 + len(r) * 27 * 1.3
+                c.text(M + 100, yy + k * 28 * 1.3, l, tf, INK)
+            yy += 34 + len(r) * 28 * 1.3
     if art:
-        ah = min(free - 30, 420)
-        y0 = top + hh + 20
+        ah = min(free - 20, 400)
+        y0 = top + hh + 10
         im = art_img(art)
-        aw = min(W - 2 * M, (ah) * im.width / im.height)
+        aw = min(W - 2 * M, ah * im.width / im.height)
         ah = aw * im.height / im.width
-        put_art(c, art, W - M - aw / 2 + (0 if aw > 500 else -20), y0 + (free - 10 - ah) / 2, w=aw, anchor="mt")
-    if cfg.get("cta"):
-        cf = font("jost", 26, 700)
-        c.text(M, ctop - 6, cfg["cta"], cf, WHITE, anchor="ls")
-    cf = font("sans", 30, 800)
+        put_art(c, art, W - M - aw / 2 - 10, y0 + (free - ah) / 2, w=aw, anchor="mt")
+    # фиолетовая плашка как кнопка «Обсудить проект» на сайте
+    shadow(c, [M, ptop, W - M, 1262], r=36, color=(94, 22, 234), alpha=70, blur=26, dy=16)
+    card(c, [M, ptop, W - M, 1262], r=36, sh=False, grad=(V1, (140, 82, 255), 20))
+    cf = font("jost", 28, 700)
+    c.text(M + 44, ptop + 52, cfg.get("cta") or "Напишите нам:", cf, WHITE, anchor="ls")
+    cf = font("sans", 31, 800)
     for i, (ic, t) in enumerate(contacts):
-        cy = ctop + 14 + i * 62
-        put_icon(c, ic, M, cy, 2, color=WHITE)
-        c.text(M + 60, cy + 20, t, cf, WHITE, anchor="lm")
+        cy = ctop + 6 + i * 62
+        put_icon(c, ic, M + 44, cy, 2, color=WHITE)
+        c.text(M + 104, cy + 20, t, cf, WHITE, anchor="lm")
+    bx, by = W - M - 120, ptop + (1262 - ptop) / 2
+    blob(c, bx, by, 58, WHITE, 255)
+    arrow_ne(c, bx, by, 22, V1, w=4)
 
 
 # ================================================================ bold posters (мало текста, крупная картинка)
@@ -1411,7 +1422,7 @@ def L_poster(c, cfg):
     flip = cfg.get("flip", False)
     vcx, vcy = (W * r.choice([0.5, 0.62, 0.38]), 860) if not flip else (W * 0.5, 430)
     blob(c, vcx, vcy, r.choice([300, 340, 380]), mix(th[0], WHITE, 0.25), 120)
-    ring(c, vcx + r.choice([-60, 60]), vcy - 20, 430, th[2], 2, 60)
+    r.choice([-60, 60])  # раньше тонкое кольцо; убрано (пересекало заголовок), выбор оставлен для стабильного random
     poster_head(c, cfg, th)
     s, f, lines = fit(c, cfg["title"], "jost", 800, W - 2 * M, 420, 150, smin=70, lh=1.0, max_lines=4)
     th_h = len(lines) * s * 1.0
