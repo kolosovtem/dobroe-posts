@@ -5,6 +5,6 @@
  "chip": "TELEGRAM-БОТ",
  "title": "«Где мой [[заказ]]?»",
  "subtitle": "Бот ответит клиенту сам",
- "icon": "mail",
+ "icon": "clock",
  "tag": "TELEGRAM"
 }
