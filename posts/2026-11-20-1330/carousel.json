@@ -5,9 +5,9 @@
    "photo": "barista_serving",
    "tone": "night",
    "label": "ЛИСТАЙТЕ ->",
-   "chip": "ПРОДАЖИ",
-   "title": "Одна фраза - [[больше]] чек",
-   "icon": "arrow",
+   "chip": "ДОПРОДАЖА",
+   "title": "Одна фраза - и [[чек]] больше",
+   "icon": "chart",
    "tag": "ПРОДАЖИ"
   },
   {
